@@ -23,7 +23,7 @@ else
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Load config files
-require_once GROCY_DATAPATH . '/config.php';
+require_once __DIR__ . '/data/config.php';
 require_once __DIR__ . '/config-dist.php'; // For not in own config defined values we use the default ones
 
 // Definitions for dev/demo/prerelease mode

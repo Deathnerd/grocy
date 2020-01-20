@@ -2,3 +2,4 @@
 /vendor
 /.release
 embedded.txt
+/data/config.php
