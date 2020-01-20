@@ -52,7 +52,7 @@ class Battery
     protected int $charge_interval_days = 0;
     //	row_created_timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
     /**
-     * @Column(type="datetime")
+     * @Column(type="datetimez")
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;

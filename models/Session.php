@@ -43,19 +43,19 @@ class Session
     protected User $user;
 //	expires DATETIME,
     /**
-     * @Column(type="datetime")
+     * @Column(type="datetimez")
      * @var DateTime
      */
     protected DateTime $expires;
 //	last_used DATETIME,
     /**
-     * @Column(type="datetime")
+     * @Column(type="datetimez")
      * @var DateTime
      */
     protected DateTime $last_used;
 //	row_created_timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
     /**
-     * @Column(type="datetime")
+     * @Column(type="datetimez")
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
