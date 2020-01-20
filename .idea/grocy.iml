@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/middleware" isTestSource="false" packagePrefix="Grocy\Middleware\" />
       <sourceFolder url="file://$MODULE_DIR$/models" isTestSource="false" packagePrefix="Grocy\Models\" />
+      <sourceFolder url="file://$MODULE_DIR$/public" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/cache" />

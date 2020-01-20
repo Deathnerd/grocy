@@ -1,6 +1,9 @@
 {
 	"name": "grocy",
 	"private": true,
+	"repository": {
+		"directory": "./public/"
+	},
 	"dependencies": {
 		"@danielfarrell/bootstrap-combobox": "https://github.com/berrnd/bootstrap-combobox.git#master",
 		"@fortawesome/fontawesome-free": "^5.11.1",

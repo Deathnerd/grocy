@@ -5,6 +5,9 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 use \Grocy\Helpers\UrlManager;
 use \Grocy\Controllers\LoginController;
+use Slim\App;
+use Slim\Container;
+use Slim\Views\Blade;
 
 // Definitions for embedded mode
 if (file_exists(__DIR__ . '/embedded.txt'))
@@ -42,14 +45,14 @@ if (GROCY_DISABLE_AUTH === true)
 }
 
 // Setup base application
-$appContainer = new \Slim\Container([
+$appContainer = new Container([
 	'settings' => [
 		'displayErrorDetails' => true,
 		'determineRouteBeforeAppMiddleware' => true
 	],
 	'view' => function($container)
 	{
-		return new \Slim\Views\Blade(__DIR__ . '/views', GROCY_DATAPATH . '/viewcache');
+		return new Blade(__DIR__ . '/views', GROCY_DATAPATH . '/viewcache');
 	},
 	'LoginControllerInstance' => function($container)
 	{
@@ -64,7 +67,7 @@ $appContainer = new \Slim\Container([
 		return 'GROCY-API-KEY';
 	}
 ]);
-$app = new \Slim\App($appContainer);
+$app = new App($appContainer);
 
 // Load routes from separate file
 require_once __DIR__ . '/routes.php';

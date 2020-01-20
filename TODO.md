@@ -2,3 +2,4 @@
 - Modify Admin Panel to always show "raw data" management sections
 - Move admin panel to React
 - Extend API to have endpoints for specific entity types
+- Move the config from magic global variables to .env
