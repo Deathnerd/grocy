@@ -52,7 +52,6 @@ class User
      * @var string
      */
     protected string $password;
-
     /**
      * @OneToMany(targetEntity="Session", mappedBy="user")
      * @var Session[]
@@ -64,6 +63,7 @@ class User
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
+
 //)
     public function __construct()
     {

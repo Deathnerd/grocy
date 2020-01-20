@@ -1,4 +1,5 @@
 <?php
+
 namespace Grocy\Models;
 
 use DateTime;
@@ -14,7 +15,8 @@ use Doctrine\ORM\Mapping\Table;
  * @Entity
  * @Table(name="batteries")
  */
-class Battery {
+class Battery
+{
     //CREATE TABLE batteries (
     //	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     /**
@@ -54,6 +56,7 @@ class Battery {
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
+
     //)
     public function __construct()
     {

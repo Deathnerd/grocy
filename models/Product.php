@@ -87,6 +87,7 @@ class Product
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
+
 //)
     public function __construct()
     {

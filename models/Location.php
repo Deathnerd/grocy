@@ -45,6 +45,7 @@ class Location
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
+
 //)
     public function __construct()
     {
