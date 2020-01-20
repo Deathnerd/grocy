@@ -3,3 +3,4 @@
 - Move admin panel to React
 - Extend API to have endpoints for specific entity types
 - Move the config from magic global variables to .env
+- Add multiple shopping lists capability
