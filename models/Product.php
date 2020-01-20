@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 /**
@@ -83,12 +84,12 @@ class Product
     protected int $default_best_before_days = 0;
 //	row_created_timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
     /**
-     * @Column(type="datetimez")
+     * @Column(type="datetimetz")
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
-
 //)
+
     public function __construct()
     {
         $this->row_created_timestamp = new DateTime();

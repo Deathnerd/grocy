@@ -59,7 +59,7 @@ class User
     protected array $sessions;
 //	row_created_timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
     /**
-     * @Column(type="datetimez")
+     * @Column(type="datetimetz")
      * @var DateTime
      */
     protected DateTime $row_created_timestamp;
