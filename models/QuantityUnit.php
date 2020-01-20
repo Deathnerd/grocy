@@ -29,13 +29,13 @@ class QuantityUnit
     protected int $id;
 //	name TEXT NOT NULL UNIQUE,
     /**
-     * @Column(type="string", unique=true, nullable=false)
+     * @Column(type="text", unique=true, nullable=false)
      * @var string
      */
     protected string $name;
 //	description TEXT,
     /**
-     * @Column(type="string")
+     * @Column(type="text")
      * @var string
      */
     protected string $description;

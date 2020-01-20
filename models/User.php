@@ -30,25 +30,25 @@ class User
     protected int $id;
 //	username TEXT NOT NULL UNIQUE,
     /**
-     * @Column(type="string", nullable=false, unique=true)
+     * @Column(type="text", nullable=false, unique=true)
      * @var string
      */
     protected string $username;
 //	first_name TEXT,
     /**
-     * @Column(type="string")
+     * @Column(type="text")
      * @var string
      */
     protected string $first_name;
 //	last_name TEXT,
     /**
-     * @Column(type="string")
+     * @Column(type="text")
      * @var string
      */
     protected string $last_name;
 //	password TEXT NOT NULL,
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="text", nullable=false)
      * @var string
      */
     protected string $password;

@@ -31,7 +31,7 @@ class Session
     protected int $id;
 //	session_key TEXT NOT NULL UNIQUE,
     /**
-     * @Column(type="string", nullable=false)
+     * @Column(type="text", nullable=false)
      * @var string
      */
     protected string $session_key;
