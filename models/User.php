@@ -23,7 +23,7 @@ class User
 //	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     /**
      * @Id
-     * @Column(type="integer")
+     * @Column(type="integer", nullable=false, unique=true)
      * @GeneratedValue
      * @var int
      */
