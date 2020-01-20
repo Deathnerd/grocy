@@ -82,6 +82,11 @@ class Product
      * @var int
      */
     protected int $default_best_before_days = 0;
+    /**
+     * @OneToMany(targetEntity="ShoppingList", mappedBy="product")
+     * @var ShoppingList[]
+     */
+    protected array $shopping_lists;
 //	row_created_timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
     /**
      * @Column(type="datetimetz")
