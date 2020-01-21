@@ -11,7 +11,7 @@ class ApplicationService extends BaseService
 		{
 			$this->InstalledVersion = json_decode(file_get_contents(__DIR__ . '/../version.json'));
 			
-			if (GROCY_MODE === 'prerelease')
+			if (getenv("GROCY_MODE") === 'prerelease')
 			{
 				$commitHash = trim(exec('git log --pretty="%h" -n1 HEAD'));
 				$commitDate = trim(exec('git log --date=iso --pretty="%cd" -n1 HEAD'));

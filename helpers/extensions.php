@@ -143,7 +143,7 @@ function Setting(string $name, $value)
 	if (!defined('GROCY_' . $name))
 	{
 		// The content of a $name.txt file in /data/settingoverrides can overwrite the given setting (for embedded mode)
-		$settingOverrideFile = GROCY_DATAPATH . '/settingoverrides/' . $name . '.txt';
+		$settingOverrideFile = getenv("GROCY_DATAPATH") . '/settingoverrides/' . $name . '.txt';
 		if (file_exists($settingOverrideFile))
 		{
 			define('GROCY_' . $name, file_get_contents($settingOverrideFile));

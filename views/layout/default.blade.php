@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ GROCY_CULTURE }}">
+<html lang="{{ getenv("GROCY_CULTURE") }}">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -41,27 +41,27 @@
 	<link href="{{ $U('/css/grocy_night_mode.css?v=', true) }}{{ $version }}" rel="stylesheet">
 	@stack('pageStyles')
 
-	@if(file_exists(GROCY_DATAPATH . '/custom_css.html'))
-		@php include GROCY_DATAPATH . '/custom_css.html' @endphp
+	@if(file_exists(getenv("GROCY_DATAPATH") . '/custom_css.html'))
+		@php include getenv("GROCY_DATAPATH") . '/custom_css.html' @endphp
 	@endif
 
-	<script>
+	<script>{{-- TODO: Move Grocy JavaScript configuration to auto-discovered data from the API--}}
 		var Grocy = { };
 		Grocy.Components = { };
-		Grocy.Mode = '{{ GROCY_MODE }}';
+		Grocy.Mode = '{{ getenv("GROCY_MODE") }}';
 		Grocy.BaseUrl = '{{ $U('/') }}';
 		Grocy.CurrentUrlRelative = "/" + window.location.toString().replace(Grocy.BaseUrl, "");
 		Grocy.ActiveNav = '@yield('activeNav', '')';
-		Grocy.Culture = '{{ GROCY_CULTURE }}';
-		Grocy.Currency = '{{ GROCY_CURRENCY }}';
-		Grocy.CalendarFirstDayOfWeek = '{{ GROCY_CALENDAR_FIRST_DAY_OF_WEEK }}';
-		Grocy.CalendarShowWeekNumbers = {{ BoolToString(GROCY_CALENDAR_SHOW_WEEK_OF_YEAR) }};
+		Grocy.Culture = '{{ getenv("GROCY_CULTURE") }}';
+		Grocy.Currency = '{{ getenv("GROCY_CURRENCY") }}';
+		Grocy.CalendarFirstDayOfWeek = '{{ getenv("GROCY_CALENDAR_FIRST_DAY_OF_WEEK") }}';
+		Grocy.CalendarShowWeekNumbers = {{ BoolToString(getenv("GROCY_CALENDAR_SHOW_WEEK_OF_YEAR")) }};
 		Grocy.GettextPo = {!! $GettextPo !!};
 		Grocy.FeatureFlags = {!! json_encode($featureFlags) !!};
 
-		@if (GROCY_AUTHENTICATED)
+		@if (getenv("GROCY_AUTHENTICATED"))
 		Grocy.UserSettings = {!! json_encode($userSettings) !!};
-		Grocy.UserId = {{ GROCY_USER_ID }};
+		Grocy.UserId = {{ getenv("GROCY_USER_ID") }};
 		@else
 		Grocy.UserSettings = { };
 		Grocy.UserId = -1;
@@ -83,11 +83,11 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		@if(GROCY_AUTHENTICATED)
+		@if(getenv("GROCY_AUTHENTICATED"))
 		<div id="sidebarResponsive" class="collapse navbar-collapse">
 			<ul class="navbar-nav navbar-sidenav pt-2">
 
-				@if(GROCY_FEATURE_FLAG_STOCK)
+				@if(getenv("GROCY_FEATURE_FLAG_STOCK"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Stock overview') }}" data-nav-for-page="stockoverview">
 					<a class="nav-link discrete-link" href="{{ $U('/stockoverview') }}">
 						<i class="fas fa-box"></i>
@@ -95,7 +95,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_SHOPPINGLIST)
+				@if(getenv("GROCY_FEATURE_FLAG_SHOPPINGLIST"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Shopping list') }}" data-nav-for-page="shoppinglist">
 					<a class="nav-link discrete-link" href="{{ $U('/shoppinglist') }}">
 						<i class="fas fa-shopping-cart"></i>
@@ -103,7 +103,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_RECIPES)
+				@if(getenv("GROCY_FEATURE_FLAG_RECIPES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Recipes') }}" data-nav-for-page="recipes">
 					<a class="nav-link discrete-link" href="{{ $U('/recipes') }}">
 						<i class="fas fa-cocktail"></i>
@@ -111,7 +111,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_CHORES)
+				@if(getenv("GROCY_FEATURE_FLAG_CHORES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Chores overview') }}" data-nav-for-page="choresoverview">
 					<a class="nav-link discrete-link" href="{{ $U('/choresoverview') }}">
 						<i class="fas fa-home"></i>
@@ -119,7 +119,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_TASKS)
+				@if(getenv("GROCY_FEATURE_FLAG_TASKS"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Tasks') }}" data-nav-for-page="tasks">
 					<a class="nav-link discrete-link" href="{{ $U('/tasks') }}">
 						<i class="fas fa-tasks"></i>
@@ -127,7 +127,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_BATTERIES)
+				@if(getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Batteries overview') }}" data-nav-for-page="batteriesoverview">
 					<a class="nav-link discrete-link" href="{{ $U('/batteriesoverview') }}">
 						<i class="fas fa-battery-half"></i>
@@ -135,7 +135,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_EQUIPMENT)
+				@if(getenv("GROCY_FEATURE_FLAG_EQUIPMENT"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Equipment') }}" data-nav-for-page="equipment">
 					<a class="nav-link discrete-link" href="{{ $U('/equipment') }}">
 						<i class="fas fa-toolbox"></i>
@@ -144,7 +144,7 @@
 				</li>
 				@endif
 				
-				@if(GROCY_FEATURE_FLAG_STOCK)
+				@if(getenv("GROCY_FEATURE_FLAG_STOCK"))
 				<li class="nav-item mt-4" data-toggle="tooltip" data-placement="right" title="{{ $__t('Purchase') }}" data-nav-for-page="purchase">
 					<a class="nav-link discrete-link" href="{{ $U('/purchase') }}">
 						<i class="fas fa-shopping-cart"></i>
@@ -157,7 +157,7 @@
 						<span class="nav-link-text">{{ $__t('Consume') }}</span>
 					</a>
 				</li>
-                                @if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+                                @if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Transfer') }}" data-nav-for-page="transfer">
 					<a class="nav-link discrete-link" href="{{ $U('/transfer') }}">
 						<i class="fas fa-exchange-alt"></i>
@@ -172,7 +172,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_CHORES)
+				@if(getenv("GROCY_FEATURE_FLAG_CHORES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Chore tracking') }}" data-nav-for-page="choretracking">
 					<a class="nav-link discrete-link" href="{{ $U('/choretracking') }}">
 						<i class="fas fa-play"></i>
@@ -180,7 +180,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_BATTERIES)
+				@if(getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Battery tracking') }}" data-nav-for-page="batterytracking">
 					<a class="nav-link discrete-link" href="{{ $U('/batterytracking') }}">
 						<i class="fas fa-fire"></i>
@@ -188,7 +188,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_CALENDAR)
+				@if(getenv("GROCY_FEATURE_FLAG_CALENDAR"))
 				<li class="nav-item mt-4" data-toggle="tooltip" data-placement="right" title="{{ $__t('Calendar') }}" data-nav-for-page="calendar">
 					<a class="nav-link discrete-link" href="{{ $U('/calendar') }}">
 						<i class="fas fa-calendar-alt"></i>
@@ -196,7 +196,7 @@
 					</a>
 				</li>
 				@endif
-				@if(GROCY_FEATURE_FLAG_RECIPES)
+				@if(getenv("GROCY_FEATURE_FLAG_RECIPES"))
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{ $__t('Meal plan') }}" data-nav-for-page="mealplan">
 					<a class="nav-link discrete-link" href="{{ $U('/mealplan') }}">
 						<i class="fas fa-paper-plane"></i>
@@ -222,14 +222,14 @@
 						<span class="nav-link-text">{{ $__t('Manage master data') }}</span>
 					</a>
 					<ul id="top-nav-manager-master-data" class="sidenav-second-level collapse">
-						@if(GROCY_FEATURE_FLAG_STOCK)
+						@if(getenv("GROCY_FEATURE_FLAG_STOCK"))
 						<li data-nav-for-page="products" data-sub-menu-of="#top-nav-manager-master-data">
 							<a class="nav-link discrete-link" href="{{ $U('/products') }}">
 								<i class="fab fa-product-hunt"></i>
 								<span class="nav-link-text">{{ $__t('Products') }}</span>
 							</a>
 						</li>
-						@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+						@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 						<li data-nav-for-page="locations" data-sub-menu-of="#top-nav-manager-master-data">
 							<a class="nav-link discrete-link" href="{{ $U('/locations') }}">
 								<i class="fas fa-map-marker-alt"></i>
@@ -250,7 +250,7 @@
 							</a>
 						</li>
 						@endif
-						@if(GROCY_FEATURE_FLAG_CHORES)
+						@if(getenv("GROCY_FEATURE_FLAG_CHORES"))
 						<li data-nav-for-page="chores" data-sub-menu-of="#top-nav-manager-master-data">
 							<a class="nav-link discrete-link" href="{{ $U('/chores') }}">
 								<i class="fas fa-home"></i>
@@ -258,7 +258,7 @@
 							</a>
 						</li>
 						@endif
-						@if(GROCY_FEATURE_FLAG_BATTERIES)
+						@if(getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 						<li data-nav-for-page="batteries" data-sub-menu-of="#top-nav-manager-master-data">
 							<a class="nav-link discrete-link" href="{{ $U('/batteries') }}">
 								<i class="fas fa-battery-half"></i>
@@ -266,7 +266,7 @@
 							</a>
 						</li>
 						@endif
-						@if(GROCY_FEATURE_FLAG_TASKS)
+						@if(getenv("GROCY_FEATURE_FLAG_TASKS"))
 						<li data-nav-for-page="taskcategories" data-sub-menu-of="#top-nav-manager-master-data">
 							<a class="nav-link discrete-link" href="{{ $U('/taskcategories') }}">
 								<i class="fas fa-project-diagram "></i>
@@ -299,19 +299,19 @@
 			</ul>
 
 			<ul class="navbar-nav ml-auto">
-				@if(GROCY_AUTHENTICATED === true && !GROCY_IS_EMBEDDED_INSTALL)
+				@if(getenv("GROCY_AUTHENTICATED") === true && !getenv("GROCY_IS_EMBEDDED_INSTALL"))
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle discrete-link" href="#" data-toggle="dropdown"><i class="fas fa-user"></i> {{ GROCY_USER_USERNAME }}</a>
+					<a class="nav-link dropdown-toggle discrete-link" href="#" data-toggle="dropdown"><i class="fas fa-user"></i> {{ getenv("GROCY_USER_USERNAME") }}</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
 						<a class="dropdown-item logout-button discrete-link" href="{{ $U('/logout') }}"><i class="fas fa-sign-out-alt"></i>&nbsp;{{ $__t('Logout') }}</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item logout-button discrete-link" href="{{ $U('/user/' . GROCY_USER_ID . '?changepw=true') }}"><i class="fas fa-key"></i>&nbsp;{{ $__t('Change password') }}</a>
+						<a class="dropdown-item logout-button discrete-link" href="{{ $U('/user/' . getenv("GROCY_USER_ID") . '?changepw=true') }}"><i class="fas fa-key"></i>&nbsp;{{ $__t('Change password') }}</a>
 					</div>
 				</li>
 				@endif
 
-				@if(GROCY_AUTHENTICATED === true)
+				@if(getenv("GROCY_AUTHENTICATED") === true)
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle discrete-link" href="#" data-toggle="dropdown"><i class="fas fa-sliders-h"></i> <span class="d-inline d-lg-none">{{ $__t('View settings') }}</span></a>
 
@@ -386,13 +386,13 @@
 
 					<div class="dropdown-menu dropdown-menu-right">
 						<a class="dropdown-item discrete-link" href="{{ $U('/stocksettings') }}"><i class="fas fa-box"></i>&nbsp;{{ $__t('Stock settings') }}</a>
-						@if(GROCY_FEATURE_FLAG_CHORES)
+						@if(getenv("GROCY_FEATURE_FLAG_CHORES"))
 						<a class="dropdown-item discrete-link" href="{{ $U('/choressettings') }}"><i class="fas fa-home"></i>&nbsp;{{ $__t('Chores settings') }}</a>
 						@endif
-						@if(GROCY_FEATURE_FLAG_BATTERIES)
+						@if(getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 						<a class="dropdown-item discrete-link" href="{{ $U('/batteriessettings') }}"><i class="fas fa-battery-half"></i>&nbsp;{{ $__t('Batteries settings') }}</a>
 						@endif
-						@if(GROCY_FEATURE_FLAG_TASKS)
+						@if(getenv("GROCY_FEATURE_FLAG_TASKS"))
 						<a class="dropdown-item discrete-link" href="{{ $U('/taskssettings') }}"><i class="fas fa-tasks"></i>&nbsp;{{ $__t('Tasks settings') }}</a>
 						@endif
 						<div class="dropdown-divider"></div>
@@ -459,8 +459,8 @@
 	@stack('componentScripts')
 	@hasSection('viewJsName')<script src="{{ $U('/viewjs', true) }}/@yield('viewJsName').js?v={{ $version }}"></script>@endif
 
-	@if(file_exists(GROCY_DATAPATH . '/custom_js.html'))
-		@php include GROCY_DATAPATH . '/custom_js.html' @endphp
+	@if(file_exists(getenv("GROCY_DATAPATH") . '/custom_js.html'))
+		@php include getenv("GROCY_DATAPATH") . '/custom_js.html' @endphp
 	@endif
 </body>
 

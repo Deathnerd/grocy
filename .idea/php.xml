@@ -53,6 +53,9 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
       <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/../../grocy-revamped/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/../../grocy-revamped/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/../../grocy-revamped/vendor/symfony/polyfill-ctype" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

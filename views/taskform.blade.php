@@ -64,7 +64,7 @@
 			</div>
 
 			@php
-			$initUserId = GROCY_USER_ID;
+			$initUserId = getenv("GROCY_USER_ID");
 			if ($mode == 'edit')
 			{
 				$initUserId = $task->assigned_to_user_id;

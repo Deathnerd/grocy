@@ -37,8 +37,8 @@
 					<th>{{ $__t('Product') }}</th>
 					<th>{{ $__t('Amount') }}</th>
 					<th>{{ $__t('Best before date') }}</th>
-					@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)<th>{{ $__t('Location') }}</th>@endif
-					@if(GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING)<th>{{ $__t('Price') }}</th>@endif
+					@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))<th>{{ $__t('Location') }}</th>@endif
+					@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING"))<th>{{ $__t('Price') }}</th>@endif
 					<th>{{ $__t('Purchased date') }}</th>
 
 					@include('components.userfields_thead', array(
@@ -48,7 +48,7 @@
 			</thead>
 			<tbody class="d-none">
 				@foreach($currentStockDetail as $currentStockEntry)
-				<tr id="stock-{{ $currentStockEntry->id }}-row" class="@if(GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING && $currentStockEntry->best_before_date < date('Y-m-d 23:59:59', strtotime('-1 days')) && $currentStockEntry->amount > 0) table-danger @elseif(GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING && $currentStockEntry->best_before_date < date('Y-m-d 23:59:59', strtotime("+$nextXDays days")) && $currentStockEntry->amount > 0) table-warning @elseif (FindObjectInArrayByPropertyValue($missingProducts, 'id', $currentStockEntry->product_id) !== null) table-info @endif">
+				<tr id="stock-{{ $currentStockEntry->id }}-row" class="@if(getenv("GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING") && $currentStockEntry->best_before_date < date('Y-m-d 23:59:59', strtotime('-1 days')) && $currentStockEntry->amount > 0) table-danger @elseif(getenv("GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING") && $currentStockEntry->best_before_date < date('Y-m-d 23:59:59', strtotime("+$nextXDays days")) && $currentStockEntry->amount > 0) table-warning @elseif (FindObjectInArrayByPropertyValue($missingProducts, 'id', $currentStockEntry->product_id) !== null) table-info @endif">
 					<td class="fit-content border-right">
 						<a class="btn btn-success btn-sm stock-consume-button @if($currentStockEntry->amount < 1) disabled @endif" href="#" data-toggle="tooltip" data-placement="left" title="{{ $__t('Consume %1$s of %2$s', '1 ' . FindObjectInArrayByPropertyValue($quantityunits, 'id', FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->qu_id_stock)->name, FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->name) }}"
 							data-product-id="{{ $currentStockEntry->product_id }}"
@@ -70,7 +70,7 @@
 							data-consume-amount="{{ $currentStockEntry->amount }}">
 							<i class="fas fa-utensils"></i> {{ $__t('All') }}
 						</a>
-						@if(GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING)
+						@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING"))
 						<a class="btn btn-success btn-sm product-open-button @if($currentStockEntry->amount < 1 || $currentStockEntry->amount == $currentStockEntry->amount_opened) disabled @endif" href="#" data-toggle="tooltip" data-placement="left" title="{{ $__t('Mark %1$s of %2$s as open', '1 ' . FindObjectInArrayByPropertyValue($quantityunits, 'id', FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->qu_id_stock)->name, FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->name) }}"
 							data-product-id="{{ $currentStockEntry->product_id }}"
 							data-product-name="{{ FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->name }}"
@@ -98,7 +98,7 @@
 									data-stock-id="{{ $currentStockEntry->stock_id }}">
 									<i class="fas fa-utensils"></i> {{ $__t('Consume') }}
 								</a>
-								@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+								@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 								<a class="dropdown-item product-transfer-button @if($currentStockEntry->amount < 1) disabled @endif" type="button" href="#"
 									data-product-id="{{ $currentStockEntry->product_id }}"
                                                                         data-location-id="{{ $currentStockEntry->location_id }}"
@@ -137,7 +137,7 @@
 									data-consume-amount="1">
 									<i class="fas fa-utensils"></i> {{ $__t('Consume %1$s of %2$s as spoiled', '1 ' . FindObjectInArrayByPropertyValue($quantityunits, 'id', FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->qu_id_stock)->name, FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->name) }}
 								</a>
-								@if(GROCY_FEATURE_FLAG_RECIPES)
+								@if(getenv("GROCY_FEATURE_FLAG_RECIPES"))
 								<a class="dropdown-item" type="button" href="{{ $U('/recipes?search=') }}{{ FindObjectInArrayByPropertyValue($products, 'id', $currentStockEntry->product_id)->name }}">
 									<i class="fas fa-cocktail"></i> {{ $__t('Search for recipes containing this product') }}
 								</a>
@@ -165,12 +165,12 @@
 						<span id="stock-{{ $currentStockEntry->id }}-best-before-date">{{ $currentStockEntry->best_before_date }}</span>
 						<time id="stock-{{ $currentStockEntry->id }}-best-before-date-timeago" class="timeago timeago-contextual" datetime="{{ $currentStockEntry->best_before_date }} 23:59:59"></time>
 					</td>
-					@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+					@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 					<td id="stock-{{ $currentStockEntry->id }}-location" class="location-name-cell cursor-link" data-location-id="{{ $currentStockEntry->location_id }}">
 						{{ FindObjectInArrayByPropertyValue($locations, 'id', $currentStockEntry->location_id)->name }}
 					</td>
 					@endif
-					@if(GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING)
+					@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING"))
 					<td id="stock-{{ $currentStockEntry->id }}-price" class="price-name-cell cursor-link" data-price-id="{{ $currentStockEntry->price }}">
 						{{ $currentStockEntry->price }}
 					</td>

@@ -12,7 +12,7 @@ class FilesService extends BaseService
 	{
 		parent::__construct();
 		
-		$this->StoragePath = GROCY_DATAPATH . '/storage';
+		$this->StoragePath = getenv("GROCY_DATAPATH") . '/storage';
 		
 		if (!file_exists($this->StoragePath))
 		{

@@ -9,7 +9,7 @@ class DemoDataGeneratorService extends BaseService
 	public function __construct()
 	{
 		parent::__construct();
-		$this->LocalizationService = new LocalizationService(GROCY_CULTURE);
+		$this->LocalizationService = new LocalizationService(getenv("GROCY_CULTURE"));
 	}
 
 	protected $LocalizationService;
@@ -288,10 +288,10 @@ class DemoDataGeneratorService extends BaseService
 			$batteriesService->TrackChargeCycle(4, date('Y-m-d H:i:s', strtotime('-56 days')));
 
 			// Download demo storage data
-			$productPicturesFolder = GROCY_DATAPATH . '/storage/productpictures';
-			$equipmentManualsFolder = GROCY_DATAPATH . '/storage/equipmentmanuals';
-			$recipePicturesFolder = GROCY_DATAPATH . '/storage/recipepictures';
-			mkdir(GROCY_DATAPATH . '/storage');
+			$productPicturesFolder = getenv("GROCY_DATAPATH") . '/storage/productpictures';
+			$equipmentManualsFolder = getenv("GROCY_DATAPATH") . '/storage/equipmentmanuals';
+			$recipePicturesFolder = getenv("GROCY_DATAPATH") . '/storage/recipepictures';
+			mkdir(getenv("GROCY_DATAPATH") . '/storage');
 			mkdir($productPicturesFolder);
 			mkdir($equipmentManualsFolder);
 			mkdir($recipePicturesFolder);

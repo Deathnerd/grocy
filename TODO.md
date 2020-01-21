@@ -3,4 +3,6 @@
 - Move admin panel to React
 - Extend API to have endpoints for specific entity types
 - Move the config from magic global variables to .env
+    - Needs testing
+    - GROCY_USER_ID is currently an envvar and should be passed in where needed instead of stored in a global scope
 - Add multiple shopping lists capability

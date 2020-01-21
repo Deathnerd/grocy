@@ -22,7 +22,7 @@ class StockController extends BaseController
 	public function Overview(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args)
 	{
 		$usersService = new UsersService();
-		$nextXDays = $usersService->GetUserSettings(GROCY_USER_ID)['stock_expring_soon_days'];
+		$nextXDays = $usersService->GetUserSettings(getenv("GROCY_USER_ID"))['stock_expring_soon_days'];
 
 		return $this->AppContainer->view->render($response, 'stockoverview', [
 			'products' => $this->Database->products()->orderBy('name'),
@@ -41,7 +41,7 @@ class StockController extends BaseController
 	public function Detail(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args)
 	{
 		$usersService = new UsersService();
-		$nextXDays = $usersService->GetUserSettings(GROCY_USER_ID)['stock_expring_soon_days'];
+		$nextXDays = $usersService->GetUserSettings(getenv("GROCY_USER_ID"))['stock_expring_soon_days'];
 
 		return $this->AppContainer->view->render($response, 'stockdetail', [
 			'products' => $this->Database->products()->orderBy('name'),

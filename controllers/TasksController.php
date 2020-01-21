@@ -30,7 +30,7 @@ class TasksController extends BaseController
 		}
 
 		$usersService = new UsersService();
-		$nextXDays = $usersService->GetUserSettings(GROCY_USER_ID)['tasks_due_soon_days'];
+		$nextXDays = $usersService->GetUserSettings(getenv("GROCY_USER_ID"))['tasks_due_soon_days'];
 
 		return $this->AppContainer->view->render($response, 'tasks', [
 			'tasks' => $tasks,

@@ -12,14 +12,14 @@ use Slim\Views\Blade;
 // Definitions for embedded mode
 if (file_exists(__DIR__ . '/embedded.txt'))
 {
-	define('GROCY_IS_EMBEDDED_INSTALL', true);
-	define('GROCY_DATAPATH', file_get_contents(__DIR__ . '/embedded.txt'));
-	define('GROCY_USER_ID', 1);
+	putenv("GROCY_IS_EMBEDDED_INSTALL=true");
+	putenv(sprintf("GROCY_DATAPATH=%s", file_get_contents(__DIR__ . '/embedded.txt')));
+	putenv("GROCY_USER_ID=1");
 }
 else
 {
-	define('GROCY_IS_EMBEDDED_INSTALL', false);
-	define('GROCY_DATAPATH', __DIR__ . '/data');
+	putenv("GROCY_IS_EMBEDDED_INSTALL=false");
+	putenv(sprintf("GROCY_DATAPATH=%s/data", __DIR__));
 }
 
 // Load composer dependencies
@@ -30,17 +30,17 @@ require_once __DIR__ . '/data/config.php';
 require_once __DIR__ . '/config-dist.php'; // For not in own config defined values we use the default ones
 
 // Definitions for dev/demo/prerelease mode
-if (GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease')
+if (getenv("GROCY_MODE") === 'dev' || getenv("GROCY_MODE") === 'demo' || getenv("GROCY_MODE") === 'prerelease')
 {
-	define('GROCY_USER_ID', 1);
+    putenv("GROCY_USER_ID=1");
 }
 
 // Definitions for disabled authentication mode
-if (GROCY_DISABLE_AUTH === true)
+if (getenv("GROCY_DISABLE_AUTH") === true)
 {
-	if (!defined('GROCY_USER_ID'))
+	if (!getenv('GROCY_USER_ID'))
 	{
-		define('GROCY_USER_ID', 1);
+        putenv("GROCY_USER_ID=1");
 	}
 }
 
@@ -52,7 +52,7 @@ $appContainer = new Container([
 	],
 	'view' => function($container)
 	{
-		return new Blade(__DIR__ . '/views', GROCY_DATAPATH . '/viewcache');
+		return new Blade(__DIR__ . '/views', getenv("GROCY_DATAPATH") . '/viewcache');
 	},
 	'LoginControllerInstance' => function($container)
 	{
@@ -60,7 +60,7 @@ $appContainer = new Container([
 	},
 	'UrlManager' => function($container)
 	{
-		return new UrlManager(GROCY_BASE_URL);
+		return new UrlManager(getenv("GROCY_BASE_URL"));
 	},
 	'ApiKeyHeaderName' => function($container)
 	{

@@ -4,6 +4,7 @@ namespace Grocy\Services;
 
 use \Grocy\Services\DatabaseService;
 use \Grocy\Services\LocalizationService;
+use LessQL\Database;
 
 class BaseService
 {
@@ -11,11 +12,22 @@ class BaseService
 		$this->DatabaseService = new DatabaseService();
 		$this->Database = $this->DatabaseService->GetDbConnection();
 
-		$localizationService = new LocalizationService(GROCY_CULTURE);
+		$localizationService = new LocalizationService(getenv("GROCY_CULTURE"));
 		$this->LocalizationService = $localizationService;
 	}
 
-	protected $DatabaseService;
-	protected $Database;
-	protected $LocalizationService;
+    /**
+     * TODO: Remove or migrate this to Doctrine
+     * @var \Grocy\Services\DatabaseService
+     */
+	protected DatabaseService $DatabaseService;
+    /**
+     * TODO: Remove or migrate this to Doctrine
+     * @var Database The database access layer
+     */
+	protected Database $Database;
+    /**
+     * @var \Grocy\Services\LocalizationService The localization service
+     */
+	protected LocalizationService $LocalizationService;
 }

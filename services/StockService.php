@@ -19,7 +19,7 @@ class StockService extends BaseService
 		if ($includeNotInStockButMissingProducts)
 		{
 			$missingProductsView = 'stock_missing_products_including_opened';
-			if (!GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT)
+			if (!getenv("GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT"))
 			{
 				$missingProductsView = 'stock_missing_products';
 			}
@@ -59,7 +59,7 @@ class StockService extends BaseService
 	public function GetMissingProducts()
 	{
 		$sql = 'SELECT * FROM stock_missing_products_including_opened';
-		if (!GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT)
+		if (!getenv("GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT"))
 		{
 			$sql = 'SELECT * FROM stock_missing_products';
 		}
@@ -889,13 +889,13 @@ class StockService extends BaseService
 
 	private function LoadBarcodeLookupPlugin()
 	{
-		$pluginName = defined('GROCY_STOCK_BARCODE_LOOKUP_PLUGIN') ? GROCY_STOCK_BARCODE_LOOKUP_PLUGIN : '';
+		$pluginName = defined('GROCY_STOCK_BARCODE_LOOKUP_PLUGIN') ? getenv("GROCY_STOCK_BARCODE_LOOKUP_PLUGIN") : '';
 		if (empty($pluginName))
 		{
 			throw new \Exception('No barcode lookup plugin defined');
 		}
 
-		$path = GROCY_DATAPATH . "/plugins/$pluginName.php";
+		$path = getenv("GROCY_DATAPATH") . "/plugins/$pluginName.php";
 		if (file_exists($path))
 		{
 			require_once $path;

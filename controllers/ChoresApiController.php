@@ -26,7 +26,7 @@ class ChoresApiController extends BaseApiController
 				$trackedTime = $requestBody['tracked_time'];
 			}
 
-			$doneBy = GROCY_USER_ID;
+			$doneBy = getenv("GROCY_USER_ID");
 			if (array_key_exists('done_by', $requestBody) && !empty($requestBody['done_by']))
 			{
 				$doneBy = $requestBody['done_by'];

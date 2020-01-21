@@ -98,7 +98,7 @@
 				'hintId' => 'chore-period-interval-info'
 			))
 
-			@if(GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS)
+			@if(getenv("GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS"))
 			<div class="form-group">
 				<label for="assignment_type">{{ $__t('Assignment type') }} <span id="chore-assignment-type-info" class="small text-muted"></span></label>
 				<select required class="form-control input-group-chore-assignment-type" id="assignment_type" name="assignment_type">
@@ -143,7 +143,7 @@
 				</div>
 			</div>
 
-			@if(GROCY_FEATURE_FLAG_STOCK)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK"))
 			<div class="form-group mt-4 mb-1">
 				<div class="form-check">
 					<input type="hidden" name="consume_product_on_execution" value="0">

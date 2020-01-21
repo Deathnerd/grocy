@@ -21,7 +21,7 @@ class ChoresController extends BaseController
 	public function Overview(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args)
 	{
 		$usersService = new UsersService();
-		$nextXDays = $usersService->GetUserSettings(GROCY_USER_ID)['chores_due_soon_days'];
+		$nextXDays = $usersService->GetUserSettings(getenv("GROCY_USER_ID"))['chores_due_soon_days'];
 
 		return $this->AppContainer->view->render($response, 'choresoverview', [
 			'chores' => $this->Database->chores()->orderBy('name'),

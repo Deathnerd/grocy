@@ -8,8 +8,8 @@ if (defined('GROCY_HTTP_USER'))
 {
 	// Migrate old user defined in config file to database
 	$newUserRow = $db->users()->createRow(array(
-		'username' => GROCY_HTTP_USER,
-		'password' => password_hash(GROCY_HTTP_PASSWORD, PASSWORD_DEFAULT)
+		'username' => getenv("GROCY_HTTP_USER"),
+		'password' => password_hash(getenv("GROCY_HTTP_PASSWORD"), PASSWORD_DEFAULT)
 	));
 	$newUserRow->save();
 }

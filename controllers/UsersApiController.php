@@ -78,7 +78,7 @@ class UsersApiController extends BaseApiController
 	{
 		try
 		{
-			$value = $this->UsersService->GetUserSetting(GROCY_USER_ID, $args['settingKey']);
+			$value = $this->UsersService->GetUserSetting(getenv("GROCY_USER_ID"), $args['settingKey']);
 			return $this->ApiResponse(array('value' => $value));
 		}
 		catch (\Exception $ex)
@@ -93,7 +93,7 @@ class UsersApiController extends BaseApiController
 		{
 			$requestBody = $request->getParsedBody();
 
-			$value = $this->UsersService->SetUserSetting(GROCY_USER_ID, $args['settingKey'], $requestBody['value']);
+			$value = $this->UsersService->SetUserSetting(getenv("GROCY_USER_ID"), $args['settingKey'], $requestBody['value']);
 			return $this->EmptyApiResponse($response);
 		}
 		catch (\Exception $ex)

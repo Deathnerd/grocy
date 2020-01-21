@@ -30,7 +30,7 @@ $app->group('', function()
 	$this->get('/user/{userId}', '\Grocy\Controllers\UsersController:UserEditForm');
 
 	// Stock routes
-	if (GROCY_FEATURE_FLAG_STOCK)
+	if (getenv("GROCY_FEATURE_FLAG_STOCK"))
 	{
 		$this->get('/stockoverview', '\Grocy\Controllers\StockController:Overview');
 		$this->get('/stockdetail', '\Grocy\Controllers\StockController:Detail');
@@ -55,7 +55,7 @@ $app->group('', function()
 	}
 
 	// Shopping list routes
-	if (GROCY_FEATURE_FLAG_SHOPPINGLIST)
+	if (getenv("GROCY_FEATURE_FLAG_SHOPPINGLIST"))
 	{
 		$this->get('/shoppinglist', '\Grocy\Controllers\StockController:ShoppingList');
 		$this->get('/shoppinglistitem/{itemId}', '\Grocy\Controllers\StockController:ShoppingListItemEditForm');
@@ -63,7 +63,7 @@ $app->group('', function()
 	}
 
 	// Recipe routes
-	if (GROCY_FEATURE_FLAG_RECIPES)
+	if (getenv("GROCY_FEATURE_FLAG_RECIPES"))
 	{
 		$this->get('/recipes', '\Grocy\Controllers\RecipesController:Overview');
 		$this->get('/recipe/{recipeId}', '\Grocy\Controllers\RecipesController:RecipeEditForm');
@@ -72,7 +72,7 @@ $app->group('', function()
 	}
 
 	// Chore routes
-	if (GROCY_FEATURE_FLAG_CHORES)
+	if (getenv("GROCY_FEATURE_FLAG_CHORES"))
 	{
 		$this->get('/choresoverview', '\Grocy\Controllers\ChoresController:Overview');
 		$this->get('/choretracking', '\Grocy\Controllers\ChoresController:TrackChoreExecution');
@@ -83,7 +83,7 @@ $app->group('', function()
 	}
 
 	// Battery routes
-	if (GROCY_FEATURE_FLAG_BATTERIES)
+	if (getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 	{
 		$this->get('/batteriesoverview', '\Grocy\Controllers\BatteriesController:Overview');
 		$this->get('/batterytracking', '\Grocy\Controllers\BatteriesController:TrackChargeCycle');
@@ -94,7 +94,7 @@ $app->group('', function()
 	}
 
 	// Task routes
-	if (GROCY_FEATURE_FLAG_TASKS)
+	if (getenv("GROCY_FEATURE_FLAG_TASKS"))
 	{
 		$this->get('/tasks', '\Grocy\Controllers\TasksController:Overview');
 		$this->get('/task/{taskId}', '\Grocy\Controllers\TasksController:TaskEditForm');
@@ -104,14 +104,14 @@ $app->group('', function()
 	}
 
 	// Equipment routes
-	if (GROCY_FEATURE_FLAG_EQUIPMENT)
+	if (getenv("GROCY_FEATURE_FLAG_EQUIPMENT"))
 	{
 		$this->get('/equipment', '\Grocy\Controllers\EquipmentController:Overview');
 		$this->get('/equipment/{equipmentId}', '\Grocy\Controllers\EquipmentController:EditForm');
 	}
 	
 	// Calendar routes
-	if (GROCY_FEATURE_FLAG_CALENDAR)
+	if (getenv("GROCY_FEATURE_FLAG_CALENDAR"))
 	{
 		$this->get('/calendar', '\Grocy\Controllers\CalendarController:Overview');
 	}
@@ -158,7 +158,7 @@ $app->group('/api', function()
 	$this->put('/user/settings/{settingKey}', '\Grocy\Controllers\UsersApiController:SetUserSetting');
 
 	// Stock
-	if (GROCY_FEATURE_FLAG_STOCK)
+	if (getenv("GROCY_FEATURE_FLAG_STOCK"))
 	{
 		$this->get('/stock', '\Grocy\Controllers\StockApiController:CurrentStock');
 		$this->get('/stock/{entryId}/entry', '\Grocy\Controllers\StockApiController:StockEntry');
@@ -187,7 +187,7 @@ $app->group('/api', function()
 	}
 
 	// Shopping list
-	if (GROCY_FEATURE_FLAG_SHOPPINGLIST)
+	if (getenv("GROCY_FEATURE_FLAG_SHOPPINGLIST"))
 	{
 		$this->post('/stock/shoppinglist/add-missing-products', '\Grocy\Controllers\StockApiController:AddMissingProductsToShoppingList');
 		$this->post('/stock/shoppinglist/clear', '\Grocy\Controllers\StockApiController:ClearShoppingList');
@@ -196,7 +196,7 @@ $app->group('/api', function()
 	}
 
 	// Recipes
-	if (GROCY_FEATURE_FLAG_RECIPES)
+	if (getenv("GROCY_FEATURE_FLAG_RECIPES"))
 	{
 		$this->post('/recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist', '\Grocy\Controllers\RecipesApiController:AddNotFulfilledProductsToShoppingList');
 		$this->get('/recipes/{recipeId}/fulfillment', '\Grocy\Controllers\RecipesApiController:GetRecipeFulfillment');
@@ -205,7 +205,7 @@ $app->group('/api', function()
 	}
 
 	// Chores
-	if (GROCY_FEATURE_FLAG_CHORES)
+	if (getenv("GROCY_FEATURE_FLAG_CHORES"))
 	{
 		$this->get('/chores', '\Grocy\Controllers\ChoresApiController:Current');
 		$this->get('/chores/{choreId}', '\Grocy\Controllers\ChoresApiController:ChoreDetails');
@@ -215,7 +215,7 @@ $app->group('/api', function()
 	}
 
 	// Batteries
-	if (GROCY_FEATURE_FLAG_BATTERIES)
+	if (getenv("GROCY_FEATURE_FLAG_BATTERIES"))
 	{
 		$this->get('/batteries', '\Grocy\Controllers\BatteriesApiController:Current');
 		$this->get('/batteries/{batteryId}', '\Grocy\Controllers\BatteriesApiController:BatteryDetails');
@@ -224,7 +224,7 @@ $app->group('/api', function()
 	}
 
 	// Tasks
-	if (GROCY_FEATURE_FLAG_TASKS)
+	if (getenv("GROCY_FEATURE_FLAG_TASKS"))
 	{
 		$this->get('/tasks', '\Grocy\Controllers\TasksApiController:Current');
 		$this->post('/tasks/{taskId}/complete', '\Grocy\Controllers\TasksApiController:MarkTaskAsCompleted');
@@ -232,7 +232,7 @@ $app->group('/api', function()
 	}
 
 	// Calendar
-	if (GROCY_FEATURE_FLAG_CALENDAR)
+	if (getenv("GROCY_FEATURE_FLAG_CALENDAR"))
 	{
 		$this->get('/calendar/ical', '\Grocy\Controllers\CalendarApiController:Ical')->setName('calendar-ical');
 		$this->get('/calendar/ical/sharing-link', '\Grocy\Controllers\CalendarApiController:IcalSharingLink');

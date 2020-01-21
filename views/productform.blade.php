@@ -73,7 +73,7 @@
 				<div id="barcode-taginput-container"></div>
 			</div>
 
-			@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 			<div class="form-group">
 				<label for="location_id">{{ $__t('Default location') }}</label>
 				<select required class="form-control" id="location_id" name="location_id">
@@ -203,7 +203,7 @@
 			))
 			@php $additionalAttributes = '' @endphp
 
-			@if(GROCY_FEATURE_FLAG_RECIPES)
+			@if(getenv("GROCY_FEATURE_FLAG_RECIPES"))
 			<div class="form-group">
 				<div class="form-check">
 					<input type="hidden" name="not_check_stock_fulfillment_for_recipes" value="0">

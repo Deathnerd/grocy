@@ -3,7 +3,7 @@
 // This is executed inside DatabaseMigrationService class/context
 
 use \Grocy\Services\LocalizationService;
-$localizationService = new LocalizationService(GROCY_CULTURE);
+$localizationService = new LocalizationService(getenv("GROCY_CULTURE"));
 
 $db = $this->DatabaseService->GetDbConnection();
 

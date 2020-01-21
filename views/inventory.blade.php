@@ -30,7 +30,7 @@
 			
 			@php
 				$additionalGroupCssClasses = '';
-				if (!GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING)
+				if (!getenv("GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING"))
 				{
 					$additionalGroupCssClasses = 'd-none';
 				}
@@ -54,14 +54,14 @@
 			))
 			@php $additionalGroupCssClasses = ''; @endphp
 
-			@if(GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING"))
 			@include('components.numberpicker', array(
 				'id' => 'price',
 				'label' => 'Price',
 				'min' => 0,
 				'step' => 0.01,
 				'value' => '',
-				'hint' => $__t('in %s per purchase quantity unit', GROCY_CURRENCY),
+				'hint' => $__t('in %s per purchase quantity unit', getenv("GROCY_CURRENCY")),
 				'additionalHtmlContextHelp' => '<br><span class="small text-muted">' . $__t('This will apply to added products') . '</span>',
 				'invalidFeedback' => $__t('The price cannot be lower than %s', '0'),
 				'isRequired' => false
@@ -70,7 +70,7 @@
 			<input type="hidden" name="price" id="price" value="0">
 			@endif
 
-			@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 			@include('components.locationpicker', array(
 				'locations' => $locations,
 				'hint' => $__t('This will apply to added products')

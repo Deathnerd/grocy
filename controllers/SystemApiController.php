@@ -26,7 +26,7 @@ class SystemApiController extends BaseApiController
 
 	public function LogMissingLocalization(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args)
 	{
-		if (GROCY_MODE === 'dev')
+		if (getenv("GROCY_MODE") === 'dev')
 		{
 			try
 			{

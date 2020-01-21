@@ -72,7 +72,7 @@
 				<textarea class="form-control" rows="2" id="note" name="note">@if($mode == 'edit'){{ $recipePos->note }}@endif</textarea>
 			</div>
 
-			@if(GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING"))
 			@php if($mode == 'edit') { $value = $recipePos->price_factor; } else { $value = 1; } @endphp
 			@include('components.numberpicker', array(
 				'id' => 'price_factor',

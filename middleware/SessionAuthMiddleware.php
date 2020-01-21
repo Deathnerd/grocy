@@ -25,11 +25,11 @@ class SessionAuthMiddleware extends BaseMiddleware
 		{
 			$response = $next($request, $response);
 		}
-		elseif (GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease' || GROCY_IS_EMBEDDED_INSTALL || GROCY_DISABLE_AUTH)
+		elseif (getenv("GROCY_MODE") === 'dev' || getenv("GROCY_MODE") === 'demo' || getenv("GROCY_MODE") === 'prerelease' || getenv("GROCY_IS_EMBEDDED_INSTALL") || getenv("GROCY_DISABLE_AUTH"))
 		{
 			$user = $sessionService->GetDefaultUser();
-			define('GROCY_AUTHENTICATED', true);
-			define('GROCY_USER_USERNAME', $user->username);
+			putenv("GROCY_AUTHENTICATED=true");
+			putenv("GROCY_USER_USERNAME={$user->username}");
 
 			$response = $next($request, $response);
 		}
@@ -37,7 +37,7 @@ class SessionAuthMiddleware extends BaseMiddleware
 		{
 			if ((!isset($_COOKIE[$this->SessionCookieName]) || !$sessionService->IsValidSession($_COOKIE[$this->SessionCookieName])) && $routeName !== 'login')
 			{
-				define('GROCY_AUTHENTICATED', false);
+				putenv("GROCY_AUTHENTICATED=false");
 				$response = $response->withRedirect($this->AppContainer->UrlManager->ConstructUrl('/login'));
 			}
 			else
@@ -45,13 +45,13 @@ class SessionAuthMiddleware extends BaseMiddleware
 				if ($routeName !== 'login')
 				{
 					$user = $sessionService->GetUserBySessionKey($_COOKIE[$this->SessionCookieName]);
-					define('GROCY_AUTHENTICATED', true);
-					define('GROCY_USER_USERNAME', $user->username);
-					define('GROCY_USER_ID', $user->id);
+					putenv("GROCY_AUTHENTICATED=true");
+					putenv("GROCY_USER_USERNAME={$user->username}");
+					putenv("GROCY_USER_ID={$user->id}");
 				}
 				else
 				{
-					define('GROCY_AUTHENTICATED', false);
+					putenv("GROCY_AUTHENTICATED=false");
 				}
 
 				$response = $next($request, $response);

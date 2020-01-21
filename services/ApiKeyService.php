@@ -47,7 +47,7 @@ class ApiKeyService extends BaseService
 		
 		$apiKeyRow = $this->Database->api_keys()->createRow(array(
 			'api_key' => $newApiKey,
-			'user_id' => GROCY_USER_ID,
+			'user_id' => getenv("GROCY_USER_ID"),
 			'expires' => '2999-12-31 23:59:59', // Default is that API keys expire never
 			'key_type' => $keyType
 		));

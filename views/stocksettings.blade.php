@@ -12,7 +12,7 @@
 		<div id="productpresets">
 			<h4>{{ $__t('Presets for new products') }}</h4>
 
-			@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
 			<div class="form-group">
 				<label for="product_presets_location_id">{{ $__t('Location') }}</label>
 				<select class="form-control user-setting-control" id="product_presets_location_id" data-setting-key="product_presets_location_id">
@@ -75,7 +75,7 @@
 			'additionalCssClasses' => 'user-setting-control'
 		))
 
-		@if(GROCY_FEATURE_FLAG_SHOPPINGLIST)
+		@if(getenv("GROCY_FEATURE_FLAG_SHOPPINGLIST"))
 		<h4 class="mt-2">{{ $__t('Shopping list to stock workflow') }}</h4>
 		
 		<div class="form-group">

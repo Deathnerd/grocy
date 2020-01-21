@@ -30,7 +30,7 @@ class LocalizationService
 	{
 		$culture = $this->Culture;
 
-		if (GROCY_MODE === 'dev')
+		if (getenv("GROCY_MODE") === 'dev')
 		{
 			$this->PotMain = Translations::fromPoFile(__DIR__ . '/../localization/strings.pot');
 
@@ -134,7 +134,7 @@ class LocalizationService
 
 	public function CheckAndAddMissingTranslationToPot($text)
 	{
-		if (GROCY_MODE === 'dev')
+		if (getenv("GROCY_MODE") === 'dev')
 		{
 			if ($this->Pot->find('', $text) === false && $this->PoUserStrings->find('', $text) === false)
 			{

@@ -2,54 +2,62 @@
 
 namespace Grocy\Services;
 
-use \Grocy\Services\ApplicationService;
+use Exception;
+use LessQL\Database;
+use PDO;
+use PDOStatement;
 
 class DatabaseService
 {
-	private function GetDbFilePath()
+	private function GetDbFilePath() : string
 	{
-		if (GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease')
+		if (getenv("GROCY_MODE") === 'demo' || getenv("GROCY_MODE") === 'prerelease')
 		{
-			return GROCY_DATAPATH . '/grocy_' . GROCY_CULTURE . '.db';
+			return getenv("GROCY_DATAPATH") . '/grocy_' . getenv("GROCY_CULTURE") . '.db';
 		}
 
-		return GROCY_DATAPATH . '/grocy.db';
+		return getenv("GROCY_DATAPATH") . '/grocy.db';
 	}
 
-	private $DbConnectionRaw;
+	private PDO $DbConnectionRaw;
 	/**
-	 * @return \PDO
+	 * @return PDO
 	 */
-	public function GetDbConnectionRaw()
+	public function GetDbConnectionRaw() : PDO
 	{
 		if ($this->DbConnectionRaw == null)
 		{
-			$pdo = new \PDO('sqlite:' . $this->GetDbFilePath());
-			$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+			$pdo = new PDO('sqlite:' . $this->GetDbFilePath());
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->DbConnectionRaw = $pdo;
 		}
 
 		return $this->DbConnectionRaw;
 	}
 
-	private $DbConnection;
+    /**
+     * @var Database
+     */
+	private Database $DbConnection;
 	/**
-	 * @return \LessQL\Database
+	 * @return Database
 	 */
-	public function GetDbConnection()
+	public function GetDbConnection() : Database
 	{
 		if ($this->DbConnection == null)
 		{
-			$this->DbConnection = new \LessQL\Database($this->GetDbConnectionRaw());
+			$this->DbConnection = new Database($this->GetDbConnectionRaw());
 		}
 
 		return $this->DbConnection;
 	}
 
-	/**
-	 * @return boolean
-	 */
-	public function ExecuteDbStatement(string $sql)
+    /**
+     * @param string $sql
+     * @return boolean
+     * @throws Exception When executing the query failed
+     */
+	public function ExecuteDbStatement(string $sql) : bool
 	{
 		$pdo = $this->GetDbConnectionRaw();
 		if ($pdo->exec($sql) === false)
@@ -60,9 +68,11 @@ class DatabaseService
 		return true;
 	}
 
-	/**
-	 * @return boolean|\PDOStatement
-	 */
+    /**
+     * @param string $sql
+     * @return boolean|PDOStatement
+     * @throws Exception When executing the query failed
+     */
 	public function ExecuteDbQuery(string $sql)
 	{
 		$pdo = $this->GetDbConnectionRaw();
@@ -74,13 +84,13 @@ class DatabaseService
 		return false;
 	}
 
-	public function GetDbChangedTime()
+	public function GetDbChangedTime() : string
 	{
 		return date('Y-m-d H:i:s', filemtime($this->GetDbFilePath()));
 	}
 
-	public function SetDbChangedTime($dateTime)
+	public function SetDbChangedTime(string $dateTime) : bool
 	{
-		touch($this->GetDbFilePath(), strtotime($dateTime));
+		return touch($this->GetDbFilePath(), strtotime($dateTime));
 	}
 }

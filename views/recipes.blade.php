@@ -168,7 +168,7 @@
 						</p>
 					</div>
 					@endif
-					@if(GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING)
+					@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING"))
 					<div class="col-6">
 						<label>{{ $__t('Costs') }}&nbsp;&nbsp;
 							<span class="small text-muted">{{ $__t('Based on the prices of the last purchase per product') }}</span>

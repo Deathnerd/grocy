@@ -35,7 +35,7 @@
 					<th class="border-right"></th>
 					<th>{{ $__t('Chore') }}</th>
 					<th>{{ $__t('Tracked time') }}</th>
-					@if(GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS)
+					@if(getenv("GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS"))
 					<th>{{ $__t('Done by') }}</th>
 					@endif
 				</tr>
@@ -60,7 +60,7 @@
 						<span>{{ $choreLogEntry->tracked_time }}</span>
 						<time class="timeago timeago-contextual @if(FindObjectInArrayByPropertyValue($chores, 'id', $choreLogEntry->chore_id)->track_date_only == 1) timeago-date-only @endif" datetime="{{ $choreLogEntry->tracked_time }}"></time>
 					</td>
-					@if(GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS)
+					@if(getenv("GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS"))
 					<td>
 						@if ($choreLogEntry->done_by_user_id !== null && !empty($choreLogEntry->done_by_user_id))
 						{{ GetUserDisplayName(FindObjectInArrayByPropertyValue($users, 'id', $choreLogEntry->done_by_user_id)) }}

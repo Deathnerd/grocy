@@ -18,7 +18,7 @@ class CalendarService extends BaseService
 		$this->TasksService = new TasksService();
 		$this->ChoresService = new ChoresService();
 		$this->BatteriesService = new BatteriesService();
-		$this->UrlManager = new UrlManager(GROCY_BASE_URL);
+		$this->UrlManager = new UrlManager(getenv("GROCY_BASE_URL"));
 	}
 
 	protected $StockService;

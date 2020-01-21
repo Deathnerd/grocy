@@ -13,7 +13,7 @@ class BaseController
 		$databaseService = new DatabaseService();
 		$this->Database = $databaseService->GetDbConnection();
 		
-		$localizationService = new LocalizationService(GROCY_CULTURE);
+		$localizationService = new LocalizationService(getenv("GROCY_CULTURE"));
 		$this->LocalizationService = $localizationService;
 
 		$applicationService = new ApplicationService();
@@ -60,7 +60,7 @@ class BaseController
 			$usersService = new UsersService();
 			if (defined('GROCY_USER_ID'))
 			{
-				$container->view->set('userSettings', $usersService->GetUserSettings(GROCY_USER_ID));
+				$container->view->set('userSettings', $usersService->GetUserSettings(getenv("GROCY_USER_ID")));
 			}
 			else
 			{

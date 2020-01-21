@@ -27,7 +27,7 @@
 				'additionalHtmlContextHelp' => '<div id="tare-weight-handling-info" class="text-info font-italic d-none">' . $__t('Tare weight handling enabled - please weigh the whole container, the amount to be posted will be automatically calculcated') . '</div>'
 			))
 
-			@if(GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING"))
                         @php /*@include('components.locationpicker', array(
                                 'id' => 'location_id',
                                 'locations' => $locations,
@@ -65,7 +65,7 @@
 				</label>
 			</div>
 
-			@if (GROCY_FEATURE_FLAG_RECIPES)
+			@if (getenv("GROCY_FEATURE_FLAG_RECIPES"))
 			@include('components.recipepicker', array(
 				'recipes' => $recipes,
 				'isRequired' => false,
@@ -75,7 +75,7 @@
 
 			<button id="save-consume-button" class="btn btn-success">{{ $__t('OK') }}</button>
 			
-			@if(GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING)
+			@if(getenv("GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING"))
 			<button id="save-mark-as-open-button" class="btn btn-secondary">{{ $__t('Mark as opened') }}</button>
 			@endif
 

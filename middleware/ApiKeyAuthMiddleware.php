@@ -22,7 +22,7 @@ class ApiKeyAuthMiddleware extends BaseMiddleware
 		$route = $request->getAttribute('route');
 		$routeName = $route->getName();
 
-		if (GROCY_MODE === 'dev' || GROCY_MODE === 'demo' || GROCY_MODE === 'prerelease' || GROCY_IS_EMBEDDED_INSTALL || GROCY_DISABLE_AUTH)
+		if (getenv("GROCY_MODE") === 'dev' || getenv("GROCY_MODE") === 'demo' || getenv("GROCY_MODE") === 'prerelease' || getenv("GROCY_IS_EMBEDDED_INSTALL") || getenv("GROCY_DISABLE_AUTH"))
 		{
 			define('GROCY_AUTHENTICATED', true);
 			$response = $next($request, $response);
@@ -72,22 +72,22 @@ class ApiKeyAuthMiddleware extends BaseMiddleware
 
 			if (!$validSession && !$validApiKey)
 			{
-				define('GROCY_AUTHENTICATED', false);
+				putenv('GROCY_AUTHENTICATED='. "false");
 				$response = $response->withStatus(401);
 			}
 			elseif ($validApiKey)
 			{
 				$user = $apiKeyService->GetUserByApiKey($usedApiKey);
-				define('GROCY_AUTHENTICATED', true);
-				define('GROCY_USER_ID', $user->id);
+				putenv('GROCY_AUTHENTICATED='. "true");
+				putenv('GROCY_USER_ID='. $user->id);
 
 				$response = $next($request, $response);
 			}
 			elseif ($validSession)
 			{
 				$user = $sessionService->GetUserBySessionKey($_COOKIE[$this->SessionCookieName]);
-				define('GROCY_AUTHENTICATED', true);
-				define('GROCY_USER_ID', $user->id);
+				putenv('GROCY_AUTHENTICATED='. "true");
+				putenv('GROCY_USER_ID='. $user->id);
 
 				$response = $next($request, $response);
 			}

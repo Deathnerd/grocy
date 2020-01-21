@@ -70,7 +70,7 @@ class ChoresService extends BaseService
 		);
 	}
 
-	public function TrackChore(int $choreId, string $trackedTime, $doneBy = GROCY_USER_ID)
+	public function TrackChore(int $choreId, string $trackedTime, $doneBy = getenv("GROCY_USER_ID"))
 	{
 		if (!$this->ChoreExists($choreId))
 		{
