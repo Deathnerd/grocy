@@ -18,13 +18,13 @@ class LocalizationService
 		$this->LoadLocalizations($culture);
 	}
 
-	protected $DatabaseService;
-	protected $Database;
-	protected $Pot;
-	protected $PotMain;
-	protected $Po;
-	protected $PoUserStrings;
-	protected $Translator;
+    protected \Grocy\Services\DatabaseService $DatabaseService;
+    protected GrocyDB $Database;
+	protected Translations $Pot;
+	protected Translations $PotMain;
+	protected Translations $Po;
+	protected Translations $PoUserStrings;
+	protected Translator $Translator;
 
 	private function LoadLocalizations()
 	{

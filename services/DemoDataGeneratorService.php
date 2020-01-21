@@ -12,7 +12,7 @@ class DemoDataGeneratorService extends BaseService
 		$this->LocalizationService = new LocalizationService(getenv("GROCY_CULTURE"));
 	}
 
-	protected $LocalizationService;
+	protected LocalizationService $LocalizationService;
 
 	public function PopulateDemoData()
 	{
@@ -30,7 +30,8 @@ class DemoDataGeneratorService extends BaseService
 			$saturdayThisWeek = date('Y-m-d', strtotime('saturday this week'));
 			$sundayThisWeek = date('Y-m-d', strtotime('sunday this week'));
 
-			$sql = "
+			$sql = /** @lang SQLite */
+                "
 				UPDATE users SET username = '{$this->__t_sql('Demo User')}' WHERE id = 1;
 				INSERT INTO users (username, password) VALUES ('{$this->__t_sql('Demo User')} 2', 'x');
 				INSERT INTO users (username, password) VALUES ('{$this->__t_sql('Demo User')} 3', 'x');
@@ -265,15 +266,15 @@ class DemoDataGeneratorService extends BaseService
 			$stockService->ConsumeProduct(11, 1, true, StockService::TRANSACTION_TYPE_CONSUME);
 
 			$choresService = new ChoresService();
-			$choresService->TrackChore(1, date('Y-m-d H:i:s', strtotime('-5 days')));
-			$choresService->TrackChore(1, date('Y-m-d H:i:s', strtotime('-10 days')));
-			$choresService->TrackChore(1, date('Y-m-d H:i:s', strtotime('-15 days')));
-			$choresService->TrackChore(2, date('Y-m-d H:i:s', strtotime('-10 days')));
-			$choresService->TrackChore(2, date('Y-m-d H:i:s', strtotime('-20 days')));
-			$choresService->TrackChore(3, date('Y-m-d H:i:s', strtotime('-17 days')));
-			$choresService->TrackChore(4, date('Y-m-d H:i:s', strtotime('-10 days')));
-			$choresService->TrackChore(5, date('Y-m-d H:i:s', strtotime('+0 days')));
-			$choresService->TrackChore(6, date('Y-m-d H:i:s', strtotime('-10 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(1, date('Y-m-d H:i:s', strtotime('-5 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(1, date('Y-m-d H:i:s', strtotime('-10 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(1, date('Y-m-d H:i:s', strtotime('-15 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(2, date('Y-m-d H:i:s', strtotime('-10 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(2, date('Y-m-d H:i:s', strtotime('-20 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(3, date('Y-m-d H:i:s', strtotime('-17 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(4, date('Y-m-d H:i:s', strtotime('-10 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(5, date('Y-m-d H:i:s', strtotime('+0 days')));
+			$choresService->TrackChoreDoneByLoggedInUser(6, date('Y-m-d H:i:s', strtotime('-10 days')));
 
 			$batteriesService = new BatteriesService();
 			$batteriesService->TrackChargeCycle(1, date('Y-m-d H:i:s', strtotime('-200 days')));

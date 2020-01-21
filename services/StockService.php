@@ -2,6 +2,12 @@
 
 namespace Grocy\Services;
 
+use Exception;
+use LessQL\Result;
+use LessQL\Row;
+use PDO;
+use stdClass;
+
 class StockService extends BaseService
 {
 	const TRANSACTION_TYPE_PURCHASE = 'purchase';
@@ -26,7 +32,7 @@ class StockService extends BaseService
 
 			$sql = 'SELECT * FROM stock_current WHERE best_before_date IS NOT NULL UNION SELECT id, 0, 0, null, 0, 0, 0 FROM ' . $missingProductsView . ' WHERE id NOT IN (SELECT product_id FROM stock_current)';
 		}
-		$currentStockMapped = $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_GROUP|\PDO::FETCH_OBJ);
+		$currentStockMapped = $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_GROUP| PDO::FETCH_OBJ);
 		
 		$relevantProducts = $this->Database->products()->where('id IN (SELECT product_id FROM (' . $sql . ') x)');
 		foreach ($relevantProducts as $product)
@@ -41,19 +47,19 @@ class StockService extends BaseService
 	public function GetCurrentStockLocationContent()
 	{
 		$sql = 'SELECT * FROM stock_current_location_content';
-		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_OBJ);
+		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function GetCurrentStockLocations()
 	{
 		$sql = 'SELECT * FROM stock_current_locations';
-		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_OBJ);
+		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function GetCurrentProductPrices()
 	{
 		$sql = 'SELECT * FROM products_current_price';
-		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_OBJ);
+		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function GetMissingProducts()
@@ -64,7 +70,7 @@ class StockService extends BaseService
 			$sql = 'SELECT * FROM stock_missing_products';
 		}
 
-		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_OBJ);
+		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function GetProductStockLocations($productId)
@@ -78,7 +84,7 @@ class StockService extends BaseService
 
 		if ($potentialProduct === null)
 		{
-			throw new \Exception("No product with barcode $barcode found");
+			throw new Exception("No product with barcode $barcode found");
 		}
 
 		return intval($potentialProduct->id);
@@ -101,14 +107,14 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		$stockCurrentRow = FindObjectinArrayByPropertyValue($this->GetCurrentStock(), 'product_id', $productId);
 
 		if ($stockCurrentRow == null)
 		{
-			$stockCurrentRow = new \stdClass();
+			$stockCurrentRow = new stdClass();
 			$stockCurrentRow->amount = 0;
 			$stockCurrentRow->amount_opened = 0;
 			$stockCurrentRow->amount_aggregated = 0;
@@ -163,7 +169,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		$returnData = array();
@@ -204,11 +210,23 @@ class StockService extends BaseService
 		return FindAllObjectsInArrayByPropertyValue($stockEntries, 'location_id', $locationId);
 	}
 
-	public function AddProduct(int $productId, float $amount, $bestBeforeDate, $transactionType, $purchasedDate, $price, $locationId = null, &$transactionId = null)
+    /**
+     * @param int $productId
+     * @param float $amount
+     * @param $bestBeforeDate
+     * @param $transactionType
+     * @param $purchasedDate
+     * @param $price
+     * @param null $locationId
+     * @param null $transactionId
+     * @return Result|Row|string|null
+     * @throws Exception
+     */
+    public function AddProduct(int $productId, float $amount, $bestBeforeDate, $transactionType, $purchasedDate, $price, $locationId = null, &$transactionId = null)
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		// Tare weight handling
@@ -219,7 +237,7 @@ class StockService extends BaseService
 		{
 			if ($amount <= floatval($productDetails->product->tare_weight) + floatval($productDetails->stock_amount))
 			{
-				throw new \Exception('The amount cannot be lower or equal than the defined tare weight + current stock amount');
+				throw new Exception('The amount cannot be lower or equal than the defined tare weight + current stock amount');
 			}
 
 			$amount = $amount - floatval($productDetails->stock_amount) - floatval($productDetails->product->tare_weight);
@@ -281,7 +299,7 @@ class StockService extends BaseService
 		}
 		else
 		{
-			throw new \Exception("Transaction type $transactionType is not valid (StockService.AddProduct)");
+			throw new Exception("Transaction type $transactionType is not valid (StockService.AddProduct)");
 		}
 	}
 
@@ -289,12 +307,12 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		if ($locationId !== null & !$this->LocationExists($locationId))
 		{
-			throw new \Exception('Location does not exist');
+			throw new Exception('Location does not exist');
 		}
 
 		// Tare weight handling
@@ -305,7 +323,7 @@ class StockService extends BaseService
 		{
 			if ($amount < floatval($productDetails->product->tare_weight))
 			{
-				throw new \Exception('The amount cannot be lower than the defined tare weight');
+				throw new Exception('The amount cannot be lower than the defined tare weight');
 			}
 
 			$amount = abs($amount - floatval($productDetails->stock_amount) - floatval($productDetails->product->tare_weight));
@@ -326,7 +344,7 @@ class StockService extends BaseService
 
 			if ($amount > $productStockAmount)
 			{
-				throw new \Exception('Amount to be consumed cannot be > current stock amount (if supplied, at the desired location)');
+				throw new Exception('Amount to be consumed cannot be > current stock amount (if supplied, at the desired location)');
 			}
 
 			if ($specificStockEntryId !== 'default')
@@ -408,17 +426,17 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		if (!$this->LocationExists($locationIdFrom))
 		{
-			throw new \Exception('Source location does not exist');
+			throw new Exception('Source location does not exist');
 		}
 
 		if (!$this->LocationExists($locationIdTo))
 		{
-			throw new \Exception('Destination location does not exist');
+			throw new Exception('Destination location does not exist');
 		}
 
 		// Tare weight handling
@@ -428,11 +446,11 @@ class StockService extends BaseService
 		if ($productDetails->product->enable_tare_weight_handling == 1)
 		{
 			// Hard fail for now, as we not yet support transfering tare weight enabled products
-			throw new \Exception('Transfering tare weight enabled products is not yet possible');
+			throw new Exception('Transfering tare weight enabled products is not yet possible');
 
 			if ($amount < floatval($productDetails->product->tare_weight))
 			{
-				throw new \Exception('The amount cannot be lower than the defined tare weight');
+				throw new Exception('The amount cannot be lower than the defined tare weight');
 			}
 
 			$amount = abs($amount - floatval($productDetails->stock_amount) - floatval($productDetails->product->tare_weight));
@@ -443,7 +461,7 @@ class StockService extends BaseService
 
 		if ($amount > $productStockAmountAtFromLocation)
 		{
-			throw new \Exception('Amount to be transfered cannot be > current stock amount at the source location');
+			throw new Exception('Amount to be transfered cannot be > current stock amount at the source location');
 		}
 
 		if ($specificStockEntryId !== 'default')
@@ -569,7 +587,7 @@ class StockService extends BaseService
 
 		if ($stockRow === null)
 		{
-			throw new \Exception('Stock does not exist');
+			throw new Exception('Stock does not exist');
 		}
 
                 $correlationId = uniqid();
@@ -621,7 +639,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		$productDetails = (object)$this->GetProductDetails($productId);
@@ -642,7 +660,7 @@ class StockService extends BaseService
 
 		if ($newAmount == floatval($productDetails->stock_amount) + $containerWeight)
 		{
-			throw new \Exception('The new amount cannot equal the current stock amount');
+			throw new Exception('The new amount cannot equal the current stock amount');
 		}
 		else if ($newAmount > floatval($productDetails->stock_amount) + $containerWeight)
 		{
@@ -672,7 +690,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		$productStockAmountUnopened = $this->Database->stock()->where('product_id = :1 AND open = 0', $productId)->sum('amount');
@@ -681,7 +699,7 @@ class StockService extends BaseService
 
 		if ($amount > $productStockAmountUnopened)
 		{
-			throw new \Exception('Amount to be opened cannot be > current unopened stock amount');
+			throw new Exception('Amount to be opened cannot be > current unopened stock amount');
 		}
 
 		if ($specificStockEntryId !== 'default')
@@ -768,7 +786,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ShoppingListExists($listId))
 		{
-			throw new \Exception('Shopping list does not exist');
+			throw new Exception('Shopping list does not exist');
 		}
 
 		$missingProducts = $this->GetMissingProducts();
@@ -804,7 +822,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ShoppingListExists($listId))
 		{
-			throw new \Exception('Shopping list does not exist');
+			throw new Exception('Shopping list does not exist');
 		}
 
 		$this->Database->shopping_list()->where('shopping_list_id = :1', $listId)->delete();
@@ -815,7 +833,7 @@ class StockService extends BaseService
 	{
 		if (!$this->ShoppingListExists($listId))
 		{
-			throw new \Exception('Shopping list does not exist');
+			throw new Exception('Shopping list does not exist');
 		}
 
 		$productRow = $this->Database->shopping_list()->where('product_id = :1', $productId)->fetch();
@@ -840,12 +858,12 @@ class StockService extends BaseService
 	{
 		if (!$this->ShoppingListExists($listId))
 		{
-			throw new \Exception('Shopping list does not exist');
+			throw new Exception('Shopping list does not exist');
 		}
 
 		if (!$this->ProductExists($productId))
 		{
-			throw new \Exception('Product does not exist');
+			throw new Exception('Product does not exist');
 		}
 
 		$alreadyExistingEntry = $this->Database->shopping_list()->where('product_id = :1 AND shopping_list_id = :2', $productId, $listId)->fetch();
@@ -892,7 +910,7 @@ class StockService extends BaseService
 		$pluginName = defined('GROCY_STOCK_BARCODE_LOOKUP_PLUGIN') ? getenv("GROCY_STOCK_BARCODE_LOOKUP_PLUGIN") : '';
 		if (empty($pluginName))
 		{
-			throw new \Exception('No barcode lookup plugin defined');
+			throw new Exception('No barcode lookup plugin defined');
 		}
 
 		$path = getenv("GROCY_DATAPATH") . "/plugins/$pluginName.php";
@@ -903,7 +921,7 @@ class StockService extends BaseService
 		}
 		else
 		{
-			throw new \Exception("Plugin $pluginName was not found");
+			throw new Exception("Plugin $pluginName was not found");
 		}
 	}
 
@@ -932,7 +950,7 @@ class StockService extends BaseService
 		$logRow = $this->Database->stock_log()->where('id = :1 AND undone = 0', $bookingId)->fetch();
 		if ($logRow == null)
 		{
-			throw new \Exception('Booking does not exist or was already undone');
+			throw new Exception('Booking does not exist or was already undone');
 		}
 
 		// Undo all correlated bookings first, in order from newest first to the oldest
@@ -949,7 +967,7 @@ class StockService extends BaseService
 		$hasSubsequentBookings = $this->Database->stock_log()->where('stock_id = :1 AND id != :2 AND (correlation_id is not null OR correlation_id != :3) AND id > :2 AND undone = 0', $logRow->stock_id, $logRow->id, $logRow->correlation_id)->count() > 0;
 		if ($hasSubsequentBookings)
 		{
-			throw new \Exception('Booking has subsequent dependent bookings, undo not possible');
+			throw new Exception('Booking has subsequent dependent bookings, undo not possible');
 		}
 
 		if ($logRow->transaction_type === self::TRANSACTION_TYPE_PURCHASE || ($logRow->transaction_type === self::TRANSACTION_TYPE_INVENTORY_CORRECTION && $logRow->amount > 0))
@@ -989,7 +1007,7 @@ class StockService extends BaseService
 			$stockRow = $this->Database->stock()->where('stock_id = :1 AND location_id = :2', $logRow->stock_id, $logRow->location_id)->fetch();
 			if ($stockRow === null)
 			{
-				throw new \Exception('Booking does not exist or was already undone');
+				throw new Exception('Booking does not exist or was already undone');
 			}
 			$newAmount = $stockRow->amount - $logRow->amount;
 
@@ -1067,7 +1085,7 @@ class StockService extends BaseService
 			$stockRow = $this->Database->stock()->where('id = :1', $logRow->stock_row_id)->fetch();
 			if ($stockRow == null)
 			{
-				throw new \Exception('Booking does not exist or was already undone');
+				throw new Exception('Booking does not exist or was already undone');
 			}
 
 			$stockRow->update(array(
@@ -1086,7 +1104,7 @@ class StockService extends BaseService
 		}
 		else
 		{
-			throw new \Exception('This booking cannot be undone');
+			throw new Exception('This booking cannot be undone');
 		}
 	}
 
@@ -1096,7 +1114,7 @@ class StockService extends BaseService
 
 		if (count($transactionBookings) === 0)
 		{
-			throw new \Exception('This transaction was not found or already undone');
+			throw new Exception('This transaction was not found or already undone');
 		}
 
 		foreach ($transactionBookings as $transactionBooking)

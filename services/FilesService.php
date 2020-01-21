@@ -3,6 +3,7 @@
 namespace Grocy\Services;
 
 use \Gumlet\ImageResize;
+use Gumlet\ImageResizeException;
 
 class FilesService extends BaseService
 {
@@ -52,7 +53,7 @@ class FilesService extends BaseService
 			if (!file_exists($filePathDownscaled))
 			{
 				$image = new ImageResize($filePath);
-				if ($bestFitHeight !== null && $bestFitHeight !== null)
+				if ($bestFitHeight !== null && $bestFitWidth !== null)
 				{
 					$image->resizeToBestFit($bestFitWidth, $bestFitHeight);
 				}
@@ -72,6 +73,6 @@ class FilesService extends BaseService
 			return $filePath;
 		}
 
-		return $filePathDownscaled;
+        return $filePathDownscaled;
 	}
 }

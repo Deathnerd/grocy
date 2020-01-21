@@ -23,9 +23,9 @@ class BaseService
 	protected DatabaseService $DatabaseService;
     /**
      * TODO: Remove or migrate this to Doctrine
-     * @var Database The database access layer
+     * @var GrocyDB The database access layer
      */
-	protected Database $Database;
+	protected GrocyDB $Database;
     /**
      * @var \Grocy\Services\LocalizationService The localization service
      */

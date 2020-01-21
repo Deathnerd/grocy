@@ -36,17 +36,17 @@ class DatabaseService
 	}
 
     /**
-     * @var Database
+     * @var GrocyDB
      */
-	private Database $DbConnection;
+	private GrocyDB $DbConnection;
 	/**
-	 * @return Database
+	 * @return GrocyDB
 	 */
-	public function GetDbConnection() : Database
+	public function GetDbConnection() : GrocyDB
 	{
 		if ($this->DbConnection == null)
 		{
-			$this->DbConnection = new Database($this->GetDbConnectionRaw());
+			$this->DbConnection = new GrocyDB($this->GetDbConnectionRaw());
 		}
 
 		return $this->DbConnection;

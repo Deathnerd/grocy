@@ -16,7 +16,7 @@ class RecipesService extends BaseService
 		$this->StockService = new StockService();
 	}
 
-	protected $StockService;
+    protected \Grocy\Services\StockService $StockService;
 
 	public function GetRecipesPosResolved()
 	{

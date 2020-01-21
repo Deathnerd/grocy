@@ -2,7 +2,10 @@
 
 namespace Grocy\Services;
 
-use \Grocy\Services\StockService;
+use Exception;
+use LessQL\Result;
+use LessQL\Row;
+use PDO;
 
 class ChoresService extends BaseService
 {
@@ -24,19 +27,19 @@ class ChoresService extends BaseService
 		$this->StockService = new StockService();
 	}
 
-	protected $StockService;
+	protected StockService $StockService;
 
 	public function GetCurrent()
 	{
 		$sql = 'SELECT * from chores_current';
-		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(\PDO::FETCH_OBJ);
+		return $this->DatabaseService->ExecuteDbQuery($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function GetChoreDetails(int $choreId)
 	{
 		if (!$this->ChoreExists($choreId))
 		{
-			throw new \Exception('Chore does not exist');
+			throw new Exception('Chore does not exist');
 		}
 
 		$usersService = new UsersService();
@@ -70,17 +73,35 @@ class ChoresService extends BaseService
 		);
 	}
 
-	public function TrackChore(int $choreId, string $trackedTime, $doneBy = getenv("GROCY_USER_ID"))
+    /**
+     * @param int $choreId
+     * @param string $trackedTime
+     * @param array|false|string $doneBy
+     * @return Result|Row|string|null
+     * @throws Exception
+     */
+	public function TrackChoreDoneByLoggedInUser(int $choreId, string $trackedTime) {
+	    return $this->TrackChore($choreId, $trackedTime, getenv("GROCY_USER_ID"));
+    }
+
+    /**
+     * @param int $choreId
+     * @param string $trackedTime
+     * @param array|false|string $doneBy
+     * @return Result|Row|string|null
+     * @throws Exception
+     */
+    public function TrackChore(int $choreId, string $trackedTime, $doneBy)
 	{
 		if (!$this->ChoreExists($choreId))
 		{
-			throw new \Exception('Chore does not exist');
+			throw new Exception('Chore does not exist');
 		}
 
 		$userRow = $this->Database->users()->where('id = :1', $doneBy)->fetch();
 		if ($userRow === null)
 		{
-			throw new \Exception('User does not exist');
+			throw new Exception('User does not exist');
 		}
 
 		$chore = $this->Database->chores($choreId);
@@ -118,7 +139,7 @@ class ChoresService extends BaseService
 		$logRow = $this->Database->chores_log()->where('id = :1 AND undone = 0', $executionId)->fetch();
 		if ($logRow == null)
 		{
-			throw new \Exception('Execution does not exist or was already undone');
+			throw new Exception('Execution does not exist or was already undone');
 		}
 
 		// Update log entry
@@ -132,7 +153,7 @@ class ChoresService extends BaseService
 	{
 		if (!$this->ChoreExists($choreId))
 		{
-			throw new \Exception('Chore does not exist');
+			throw new Exception('Chore does not exist');
 		}
 
 		$chore = $this->Database->chores($choreId);
