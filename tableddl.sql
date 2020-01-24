@@ -18,7 +18,7 @@ CREATE TABLE batteries -- Mapped
     charge_interval_days  INTEGER NOT NULL DEFAULT 0,
     row_created_timestamp DATETIME         DEFAULT (datetime('now', 'localtime'))
 );
-CREATE TABLE battery_charge_cycles
+CREATE TABLE battery_charge_cycles -- Mapped
 (
     id                    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     battery_id            TEXT    NOT NULL,

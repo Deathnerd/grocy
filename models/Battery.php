@@ -4,6 +4,7 @@ namespace Grocy\Models;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Grocy\Models\SuperClasses\NameDescriptionEntity;
 
@@ -25,4 +26,9 @@ class Battery extends NameDescriptionEntity
      * @var int
      */
     protected int $charge_interval_days = 0;
+    /**
+     * @OneToMany(targetEntity="BatteryChargeCycle", mappedBy="battery")
+     * @var BatteryChargeCycle[]
+     */
+    protected array $charge_cycles;
 }
