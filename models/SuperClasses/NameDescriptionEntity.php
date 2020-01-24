@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Grocy\Models;
+namespace Grocy\Models\SuperClasses;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\MappedSuperclass;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\MappedSuperclass;
  * @package Grocy\Models
  * @MappedSuperclass
  */
-class NameDescriptionEntity extends BaseEntity
+abstract class NameDescriptionEntity extends BaseEntity
 {
     /**
      * @Column(type="text", unique=true, nullable=false)

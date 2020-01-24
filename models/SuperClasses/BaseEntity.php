@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Grocy\Models;
+namespace Grocy\Models\SuperClasses;
 
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
@@ -16,7 +16,7 @@ use Exception;
  * @package Grocy\Models
  * @MappedSuperclass
  */
-class BaseEntity
+abstract class BaseEntity
 {
     /**
      * @Id
@@ -35,7 +35,8 @@ class BaseEntity
      * @PrePersist
      * @throws Exception
      */
-    public function generateTimeStamp() {
+    public function generateTimeStamp()
+    {
         $this->row_created_timestamp = new DateTime();
     }
 }
