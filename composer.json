@@ -12,7 +12,8 @@
     "doctrine/orm": "^2.6.2",
     "vlucas/phpdotenv": "^4.1",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "doctrine/migrations": "^2.2"
   },
   "autoload": {
     "psr-4": {
