@@ -44,4 +44,9 @@ class User extends BaseEntity
      * @var Session[]
      */
     protected array $sessions;
+    /**
+     * @OneToMany(targetEntity="ApiKey", mappedBy="user")
+     * @var ApiKey[]
+     */
+    protected array $api_keys;
 }
