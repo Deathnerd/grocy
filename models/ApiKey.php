@@ -3,7 +3,6 @@
 
 namespace Grocy\Models;
 
-
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -12,20 +11,20 @@ use Doctrine\ORM\Mapping\Table;
 use Grocy\Models\SuperClasses\BaseEntity;
 
 /**
- * Class Session
+ * Class ApiKey
  * @package Grocy\Models
  * @Entity
- * @Table(name="sessions")
+ * @Table(name="api_keys")
  */
-class Session extends BaseEntity
+class ApiKey extends BaseEntity
 {
     /**
-     * @Column(type="text", nullable=false)
+     * @Column(type="text", nullable=false, unique=true)
      * @var string
      */
-    protected string $session_key;
+    protected string $api_key;
     /**
-     * @ManyToOne(targetEntity="User", inversedBy="sessions")
+     * @ManyToOne(targetEntity="User", inversedBy="api_keys")
      * @var User
      */
     protected User $user;
