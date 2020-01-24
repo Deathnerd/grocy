@@ -47,4 +47,9 @@ class User extends BaseEntity
      * @var ApiKey[]
      */
     protected array $api_keys;
+    /**
+     * @OneToMany(targetEntity="Chore", mappedBy="next_execution_assigned_to_user")
+     * @var Chore[]
+     */
+    protected array $assigned_chores;
 }

@@ -2,6 +2,7 @@
 
 namespace Grocy\Controllers;
 
+use Grocy\Models\Chore;
 use \Grocy\Services\ChoresService;
 use \Grocy\Services\UsersService;
 use \Grocy\Services\UserfieldsService;
@@ -67,10 +68,10 @@ class ChoresController extends BaseController
 		if ($args['choreId'] == 'new')
 		{
 			return $this->AppContainer->view->render($response, 'choreform', [
-				'periodTypes' => GetClassConstants('\Grocy\Services\ChoresService', 'CHORE_PERIOD_TYPE_'),
+				'periodTypes' => Chore::getPeriodTypes(),
 				'mode' => 'create',
 				'userfields' => $this->UserfieldsService->GetFields('chores'),
-				'assignmentTypes' => GetClassConstants('\Grocy\Services\ChoresService', 'CHORE_ASSIGNMENT_TYPE_'),
+				'assignmentTypes' => Chore::getAssignmentTypes(),
 				'users' => $users,
 				'products' => $this->Database->products()->orderBy('name')
 			]);
@@ -79,10 +80,10 @@ class ChoresController extends BaseController
 		{
 			return $this->AppContainer->view->render($response, 'choreform', [
 				'chore' =>  $this->Database->chores($args['choreId']),
-				'periodTypes' => GetClassConstants('\Grocy\Services\ChoresService', 'CHORE_PERIOD_TYPE_'),
+				'periodTypes' => Chore::getPeriodTypes(),
 				'mode' => 'edit',
 				'userfields' => $this->UserfieldsService->GetFields('chores'),
-				'assignmentTypes' => GetClassConstants('\Grocy\Services\ChoresService', 'CHORE_ASSIGNMENT_TYPE_'),
+				'assignmentTypes' => Chore::getAssignmentTypes(),
 				'users' => $users,
 				'products' => $this->Database->products()->orderBy('name')
 			]);

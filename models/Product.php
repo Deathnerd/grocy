@@ -57,4 +57,9 @@ class Product extends NameDescriptionEntity
      * @var ShoppingList[]
      */
     protected array $shopping_lists;
+    /**
+     * @OneToMany(targetEntity="Chore", mappedBy="product")
+     * @var Chore[]
+     */
+    protected array $chores_used_in;
 }

@@ -2999,14 +2999,11 @@ END;
 -- END 0082.sql
 
 -- BEGIN 0083.sql
-ALTER TABLE chores
-    ADD assignment_type TEXT;
+ALTER TABLE chores ADD assignment_type TEXT;
 
-ALTER TABLE chores
-    ADD assignment_config TEXT;
+ALTER TABLE chores ADD assignment_config TEXT;
 
-ALTER TABLE chores
-    ADD next_execution_assigned_to_user_id INT;
+ALTER TABLE chores ADD next_execution_assigned_to_user_id INT;
 
 DROP VIEW chores_current;
 CREATE VIEW chores_current

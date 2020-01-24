@@ -3,23 +3,13 @@
 namespace Grocy\Services;
 
 use Exception;
+use Grocy\Models\Chore;
 use LessQL\Result;
 use LessQL\Row;
 use PDO;
 
 class ChoresService extends BaseService
 {
-	const CHORE_PERIOD_TYPE_MANUALLY = 'manually';
-	const CHORE_PERIOD_TYPE_DYNAMIC_REGULAR = 'dynamic-regular';
-	const CHORE_PERIOD_TYPE_DAILY = 'daily';
-	const CHORE_PERIOD_TYPE_WEEKLY = 'weekly';
-	const CHORE_PERIOD_TYPE_MONTHLY = 'monthly';
-	const CHORE_PERIOD_TYPE_YEARLY = 'yearly';
-
-	const CHORE_ASSIGNMENT_TYPE_NO_ASSIGNMENT = 'no-assignment';
-	const CHORE_ASSIGNMENT_TYPE_WHO_LEAST_DID_FIRST = 'who-least-did-first';
-	const CHORE_ASSIGNMENT_TYPE_RANDOM = 'random';
-	const CHORE_ASSIGNMENT_TYPE_IN_ALPHABETICAL_ORDER = 'in-alphabetical-order';
 
 	public function __construct()
 	{
@@ -217,7 +207,7 @@ class ChoresService extends BaseService
 				$nextExecutionUserId = array_shift($assignedUsers)->id;
 			}
 		}
-		else if ($chore->assignment_type == self::CHORE_ASSIGNMENT_TYPE_WHO_LEAST_DID_FIRST)
+		else if ($chore->assignment_type == Chore::CHORE_ASSIGNMENT_TYPE_WHO_LEAST_DID_FIRST)
 		{
 			$row = $this->Database->chores_execution_users_statistics()->where('chore_id = :1', $choreId)->orderBy('execution_count')->limit(1)->fetch();
 			if ($row != null)
