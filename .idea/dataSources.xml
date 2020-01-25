@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="grocy.db" uuid="4d2ec16b-ba4a-409d-be27-e7830cfc583c">
+    <data-source source="LOCAL" name="grocy" uuid="ca4cdeb9-ab22-40b2-9a71-c3ce07beb3d8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/data/grocy.db</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="db" uuid="ba39351c-9273-4e23-b504-aeeee39ed381">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\wesgi\PhpstormProjects\grocy\db.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\wesgi\PhpstormProjects\grocy-revamped\grocy.db</jdbc-url>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
