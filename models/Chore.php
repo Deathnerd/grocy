@@ -5,6 +5,7 @@ namespace Grocy\Models;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
@@ -93,7 +94,11 @@ class Chore extends NameDescriptionEntity
      * @var int
      */
     protected int $period_interval = 1;
-
+    /**
+     * @OneToMany(targetEntity="ChoreLog", mappedBy="chore")
+     * @var ChoreLog[]
+     */
+    protected array $log_entries;
     /**
      * @PrePersist
      * @PreUpdate

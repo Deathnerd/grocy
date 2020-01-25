@@ -52,4 +52,9 @@ class User extends BaseEntity
      * @var Chore[]
      */
     protected array $assigned_chores;
+    /**
+     * @OneToMany(targetEntity="ChoreLog", mappedBy="done_by_user")
+     * @var ChoreLog[]
+     */
+    protected array $chore_logs;
 }
