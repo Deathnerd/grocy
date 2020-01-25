@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnusedParameterInspection */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -8,6 +8,8 @@ use \Grocy\Controllers\LoginController;
 use Slim\App;
 use Slim\Container;
 use Slim\Views\Blade;
+
+require_once 'vendor\autoload.php';
 
 // Definitions for embedded mode
 if (file_exists(__DIR__ . '/embedded.txt'))
@@ -72,4 +74,5 @@ $app = new App($appContainer);
 // Load routes from separate file
 require_once __DIR__ . '/routes.php';
 
+/** @noinspection PhpUnhandledExceptionInspection */
 $app->run();
